@@ -15,7 +15,7 @@ class CreatAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->foreign;
+            $table->int('user_id')->foreign;
             $table->timestamp('punch_in')->nullable;
             $table->timestamp('punch_out')->nullable;
             $table->timestamp('created_at')->useCurrent()->nullable;
