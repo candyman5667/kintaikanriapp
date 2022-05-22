@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatAttendancesTable extends Migration
+class CreateAttendancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,9 @@ class CreatAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->int('user_id')->foreign;
-            $table->timestamp('punch_in')->nullable;
-            $table->timestamp('punch_out')->nullable;
+            $table->integer('user_id')->foreign();
+            $table->timestamp('punch_in')->nullable();
+            $table->timestamp('punch_out')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable;
             $table->timestamp('updated_at')->useCurrent()->nullable;
         });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatRestsTable extends Migration
+class CreateRestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,9 @@ class CreatRestsTable extends Migration
     {
         Schema::create('rests', function (Blueprint $table) {
             $table->id();
-            $table->int('attendance_id')->foreign;
-            $table->timestamp('break_start')->nullable;
-            $table->timestamp('break_end')->nullable;
+            $table->integer('attendance_id')->foreign();
+            $table->timestamp('break_start')->nullable();
+            $table->timestamp('break_end')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable;
             $table->timestamp('updated_at')->useCurrent()->nullable;
         }); 
