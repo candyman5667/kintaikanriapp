@@ -13,14 +13,15 @@ use App\Http\Controllers\AttendanceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/attendance',[AttendanceController::class,'index']);
+Route::get('/',[AttendanceController::class,'index'])->middleware(['auth']);
+//勤務開始
+Route::post('/', [AttendanceController::class, 'start_stamp'])->middleware(['auth']);
+//勤務終了
+Route::post('/', [AttendanceController::class, 'end_stamp'])->middleware(['auth']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//})
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
