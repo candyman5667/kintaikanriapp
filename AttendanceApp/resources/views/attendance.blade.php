@@ -37,6 +37,16 @@
     <input type="submit" class="punch-out" value="勤務終了">
   </form>
 
+  <form action="/rest_start" class="time_add" method="POST">
+    @csrf
+    <input type="submit" class="rest-in" value="休憩開始">
+  </form>
+
+  <form action="/rest_end" class="time_add" method="POST">
+    @csrf
+    <input type="submit" class="rest-out" value="休憩終了">
+  </form>
+
   <form method="POST" action="{{ route('logout') }}">
     @csrf
 
@@ -44,7 +54,7 @@
       {{ __('Log Out') }}
     </button>
   </form>
-  
+
   </main>
 
   <footer class="attendance-footer">

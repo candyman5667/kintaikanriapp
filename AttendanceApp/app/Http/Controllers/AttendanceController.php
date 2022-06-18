@@ -12,9 +12,26 @@ class AttendanceController extends Controller
 {
     public function index()
     {
-        return view('attendance');
+        $user = Auth::user();
+        $userId = Auth::id();
+        $today = Carbon::today();
+        $checkTime =
+            Attendance::where('user_id', $userId)
+            ->whereDate('created_at', $today)->first();
+
+        if (!$checkTime) {
+            $msg = "出勤していません。";
+            return view('attendance',[
+                'test_blade' => $msg,
+            ]);
+        }
+        $msg = "出勤しています。";
+        return view('attendance', [
+            'test_blade' => $msg,
+        ]);
     }
 
+    //出勤機能
     public function start_stamp()
     {
         $userId = Auth::id();
@@ -24,33 +41,31 @@ class AttendanceController extends Controller
         ->whereDate('created_at' , $today)->first();
 
         if ($checkTime) {
-            return  'すでに出勤してます.';
+            return  redirect('/');
         }
 
         //１.現在の時間の取得
-        $datetime = Carbon::now(); 
+        $dateTime = Carbon::now(); 
         
         //2.データベースの保存
         //ユーザーの情報とどのテーブルに保存するか？
         $user = [
             'user_id' => $userId,
-            'punch_in' => $datetime,
+            'punch_in' => $dateTime,
         ];
 
         Attendance::create($user);
-
-        //3.どのページに遷移するか
-        return back()->with('message', '勤務を開始しました');
     }
 
+    //退勤機能
     public function end_stamp()
     {
         $userId = Auth::id();
-        $datetime = Carbon::now();
+        $dateTime = Carbon::now();
         $today = Carbon::today();
-        $checktime = Attendance::where('user_id', $userId)
+        $checkTime = Attendance::where('user_id', $userId)
         ->whereDate('created_at', $today)->first();
-        if ($checktime == null) {
+        if ($checkTime == null) {
             return '出勤していません。';
         }
         //dd($checktime);
@@ -58,10 +73,8 @@ class AttendanceController extends Controller
         Attendance::where('user_id' , $userId)
         ->whereDate('created_at' , $today)
         ->update([
-            'punch_out' => $datetime,
+            'punch_out' => $dateTime,
         ]);
-
-        return back()->with('message', 'お疲れ様でした。'); 
     }
 }
 

@@ -16,8 +16,9 @@ class CreateRestsTable extends Migration
         Schema::create('rests', function (Blueprint $table) {
             $table->id();
             $table->integer('attendance_id')->foreign();
-            $table->timestamp('break_start')->nullable();
-            $table->timestamp('break_end')->nullable();
+            $table->timestamp('rest_start')->nullable();
+            $table->timestamp('rest_end')->nullable();
+            $table->timestamp('rest_total')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable;
             $table->timestamp('updated_at')->useCurrent()->nullable;
         }); 
