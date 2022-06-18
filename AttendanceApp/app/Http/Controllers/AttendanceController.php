@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
+use Carbon\carbon;
+use App\Http\Request\AttendanceRequest;
 
 class AttendanceController extends Controller
 {
@@ -15,11 +17,19 @@ class AttendanceController extends Controller
 
     public function start_stamp()
     {
-        //１.現在の時間の取得
-        //$datetime = Carbon::now();
         $userId = Auth::id();
-        //dd($userId);
+        $today = Carbon::today();
+        $checkTime =
+        Attendance::where('user_id', $userId)
+        ->whereDate('created_at' , $today)->first();
 
+        if ($checkTime) {
+            return  'すでに出勤してます.';
+        }
+
+        //１.現在の時間の取得
+        $datetime = Carbon::now(); 
+        
         //2.データベースの保存
         //ユーザーの情報とどのテーブルに保存するか？
         $user = [
@@ -30,22 +40,28 @@ class AttendanceController extends Controller
         Attendance::create($user);
 
         //3.どのページに遷移するか
-    return redirect('/');
+        return back()->with('message', '勤務を開始しました');
     }
 
     public function end_stamp()
     {
         $userId = Auth::id();
-       // $datetime = Carbon::now();
+        $datetime = Carbon::now();
+        $today = Carbon::today();
+        $checktime = Attendance::where('user_id', $userId)
+        ->whereDate('created_at', $today)->first();
+        if ($checktime == null) {
+            return '出勤していません。';
+        }
+        //dd($checktime);
 
-        $user = [
-            'user_id' => $userId,
+        Attendance::where('user_id' , $userId)
+        ->whereDate('created_at' , $today)
+        ->update([
             'punch_out' => $datetime,
-        ];
+        ]);
 
-        Attendance::create($user);
-
-        return redirect('/');
+        return back()->with('message', 'お疲れ様でした。'); 
     }
 }
 

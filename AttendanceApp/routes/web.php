@@ -15,9 +15,9 @@ use App\Http\Controllers\AttendanceController;
 */
 Route::get('/',[AttendanceController::class,'index'])->middleware(['auth']);
 //勤務開始
-Route::post('/', [AttendanceController::class, 'start_stamp'])->middleware(['auth']);
+Route::post('/start', [AttendanceController::class, 'start_stamp'])->middleware(['auth']);
 //勤務終了
-Route::post('/', [AttendanceController::class, 'end_stamp'])->middleware(['auth']);
+Route::post('/end', [AttendanceController::class, 'end_stamp'])->middleware(['auth']);
 
 //Route::get('/', function () {
 //    return view('welcome');

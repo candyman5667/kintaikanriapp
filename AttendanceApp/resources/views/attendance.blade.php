@@ -26,16 +26,25 @@
   </header>
 
   <main class="attendance-main">
-    <form action="/" class="time_add">
+    <form action="/start" class="time_add" method="POST">
       @csrf
       <input type="submit" class="punch-in" value="勤務開始">
     </form>
   </main>
 
-  <form action="/" class="time_add">
+  <form action="/end" class="time_add" method="POST">
     @csrf
     <input type="submit" class="punch-out" value="勤務終了">
   </form>
+
+  <form method="POST" action="{{ route('logout') }}">
+    @csrf
+
+    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
+      {{ __('Log Out') }}
+    </button>
+  </form>
+  
   </main>
 
   <footer class="attendance-footer">
