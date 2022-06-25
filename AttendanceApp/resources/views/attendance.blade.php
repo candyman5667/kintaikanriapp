@@ -63,7 +63,7 @@
       <p>Atte,inc</p>
     </small>
   </footer>
-
+<!--
   <script>
     function func1() {
 
@@ -78,7 +78,7 @@
       }
     }
   </script>
-
+  -->
 </body>
 
 </html>
