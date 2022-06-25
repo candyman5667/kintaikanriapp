@@ -21,14 +21,10 @@ class AttendanceController extends Controller
 
         if (!$checkTime) {
             $msg = "出勤していません。";
-            return view('attendance',[
-                'test_blade' => $msg,
-            ]);
+            return view('attendance', compact('msg'));
         }
         $msg = "出勤しています。";
-        return view('attendance', [
-            'test_blade' => $msg,
-        ]);
+        return view('attendance', compact('msg'));
     }
 
     //出勤機能
@@ -65,8 +61,10 @@ class AttendanceController extends Controller
         $today = Carbon::today();
         $checkTime = Attendance::where('user_id', $userId)
         ->whereDate('created_at', $today)->first();
+        
         if ($checkTime == null) {
-            return '出勤していません。';
+            $coment = "出勤中";
+            return view('attendance', compact('coment'));
         }
         //dd($checktime);
 
