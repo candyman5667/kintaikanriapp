@@ -23,6 +23,8 @@ Route::post('/rest_start', [RestController::class, 'rest_in'])->middleware(['aut
 //休憩終了
 Route::post('/rest_end', [RestController::class, 'rest_out'])->middleware(['auth']);
 
+Route::get('/signout', [AttendanceController::class, 'signout'])->name('signout');
+
 //Route::get('/', function () {
 //    return view('welcome');
 //})

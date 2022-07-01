@@ -20,40 +20,54 @@
       <ul class="header-nav-list">
         <li class="header-nav-item"><a href="">ホーム</a></li>
         <li class="header-nav-item"><a href="">日付一覧</a></li>
-        <li class="header-nav-item"><a href="">ログアウト</a></li>
+        <li class="header-nav-item"><a href="{{route('signout')}}">ログアウト</a></li>
       </ul>
     </nav>
   </header>
 
   <main class="attendance-main">
-    <p>{{ $msg }}</p>
+    {{-- <p>{{ $msg }}</p> --}}
     <p>{{ Auth::user()->name }}さんお疲れ様です！</p>
     <form action="/start" class="time_add" method="POST">
       @csrf
-      <button type="submit" id="b1" onclick="func1()">勤務開始</button>
+      @php
+      var_dump(isset($is_attendance_start));
+      var_dump(isset($is_attendance_end));
+      var_dump(isset($is_rest_start));
+      var_dump(isset($is_rest_end));
+      @endphp
+      @if (isset($is_attendance_start))
+      <button type="submit" id="b1">勤務開始</button>
+      @else
+      <button type="submit" id="b1" disabled>勤務開始</button>
+      @endif
     </form>
 
     <form action="/end" class="time_add" method="POST">
       @csrf
-      <button type="submit" id="b2" onclick="func2()">勤務終了</button>
+      @if (!isset($is_attendance_end))
+      <button type="submit" id="b2">勤務終了</button>
+      @else
+      <button type="submit" id="b2" disabled>勤務終了</button>
+      @endif
     </form>
 
     <form action="/rest_start" class="time_add" method="POST">
       @csrf
-      <button type="submit" id="b3" onclick="func3()">休憩開始</button>
+      @if (!isset($is_rest_start))
+      <button type="submit" id="b3">休憩開始</button>
+      @else
+      <button type="submit" id="b3" disabled>休憩開始</button>
+      @endif
     </form>
 
     <form action="/rest_end" class="time_add" method="POST">
       @csrf
-      <button type="submit" id="b4" onclick="func4()">休憩終了</button>
-    </form>
-
-    <form method="POST" action="{{ route('logout') }}">
-      @csrf
-
-      <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
-        {{ __('Log Out') }}
-      </button>
+      @if (isset($is_rest_end))
+      <button type="submit" id="b4">休憩終了</button>
+      @else
+      <button type="submit" id="b4" disablee >休憩終了</button>
+      @endif
     </form>
 
   </main>
@@ -63,7 +77,7 @@
       <p>Atte,inc</p>
     </small>
   </footer>
-<!--
+  <!--
   <script>
     function func1() {
 
